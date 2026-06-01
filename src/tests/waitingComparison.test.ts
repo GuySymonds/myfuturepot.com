@@ -66,4 +66,29 @@ describe('waitingComparison', () => {
     const age40 = results.find((r) => r.startAge === 40);
     expect(age40?.potAtRetirement).toBe(0);
   });
+
+  it('potTodayEquivalent is less than potAtRetirement for the same result', () => {
+    const results = calculateWaitingComparison(defaultInputs);
+    for (const result of results) {
+      if (result.potAtRetirement > 0) {
+        expect(result.potTodayEquivalent).toBeLessThan(result.potAtRetirement);
+      }
+    }
+  });
+
+  it('differenceFromEarliestToday is positive for later start ages', () => {
+    const results = calculateWaitingComparison(defaultInputs);
+    const later = results.filter((r) => r.startAge > 18);
+    for (const result of later) {
+      expect(result.differenceFromEarliestToday).toBeGreaterThanOrEqual(0);
+    }
+  });
+
+  it('difference compared with starting at 18 increases as start age increases', () => {
+    const results = calculateWaitingComparison(defaultInputs);
+    const sorted = [...results].sort((a, b) => a.startAge - b.startAge);
+    for (let i = 1; i < sorted.length - 1; i++) {
+      expect(sorted[i + 1].differenceFromEarliest).toBeGreaterThan(sorted[i].differenceFromEarliest);
+    }
+  });
 });

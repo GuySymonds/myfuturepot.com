@@ -67,3 +67,15 @@ export type QuickGrowthResult = {
   whatItCouldBuyToday: number;
   growthMultiplier: number;
 };
+
+/**
+ * A single data point for the pot-through-the-years chart.
+ * Contains values for both the current (user) scenario and the default comparison.
+ */
+export type PensionChartPoint = {
+  age: number;
+  currentPotValue: number | null;
+  currentPotValueTodayEquivalent: number | null;
+  defaultPotValue: number | null;
+  defaultPotValueTodayEquivalent: number | null;
+};
