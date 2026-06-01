@@ -8,6 +8,8 @@ import { formatMoney, formatPercent } from '../utils/formatMoney';
 interface AssumptionsPanelProps {
   inputs: PensionInputs;
   onChange: (updated: PensionInputs) => void;
+  /** When true, renders always-open without the collapsible header. */
+  alwaysOpen?: boolean;
 }
 
 function buildSummary(inputs: PensionInputs): string {
@@ -26,8 +28,10 @@ export function buildAssumptionsSummary(inputs: PensionInputs): string {
   return buildSummary(inputs);
 }
 
-export default function AssumptionsPanel({ inputs, onChange }: AssumptionsPanelProps) {
+export default function AssumptionsPanel({ inputs, onChange, alwaysOpen = false }: AssumptionsPanelProps) {
   const [open, setOpen] = useState(false);
+
+  const isOpen = alwaysOpen || open;
 
   function set<K extends keyof PensionInputs>(key: K, value: PensionInputs[K]) {
     onChange({ ...inputs, [key]: value });
@@ -35,37 +39,39 @@ export default function AssumptionsPanel({ inputs, onChange }: AssumptionsPanelP
 
   return (
     <div className="bg-white rounded-2xl shadow-sm border border-slate-100">
-      {/* Header / trigger */}
-      <button
-        type="button"
-        onClick={() => setOpen((v) => !v)}
-        aria-expanded={open}
-        aria-controls="assumptions-panel-content"
-        className="w-full flex items-center justify-between gap-3 px-6 py-4 text-left hover:bg-slate-50 rounded-2xl transition-colors focus:outline-none focus:ring-2 focus:ring-violet-400"
-      >
-        <div className="flex flex-col gap-0.5 min-w-0">
-          <span className="text-base font-semibold text-slate-800">Change the assumptions</span>
-          {!open && (
-            <span className="text-xs text-slate-500 truncate">
-              {buildSummary(inputs)}
-            </span>
-          )}
-          {!open && (
-            <span className="text-xs text-slate-400 mt-0.5">
-              Adjust salary, contributions, growth and prices to see how the results change.
-            </span>
-          )}
-        </div>
-        <span className="shrink-0 text-slate-400">
-          {open ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
-        </span>
-      </button>
+      {/* Header / trigger — hidden when alwaysOpen */}
+      {!alwaysOpen && (
+        <button
+          type="button"
+          onClick={() => setOpen((v) => !v)}
+          aria-expanded={isOpen}
+          aria-controls="assumptions-panel-content"
+          className="w-full flex items-center justify-between gap-3 px-6 py-4 text-left hover:bg-slate-50 rounded-2xl transition-colors focus:outline-none focus:ring-2 focus:ring-violet-400"
+        >
+          <div className="flex flex-col gap-0.5 min-w-0">
+            <span className="text-base font-semibold text-slate-800">Change the assumptions</span>
+            {!isOpen && (
+              <span className="text-xs text-slate-500 truncate">
+                {buildSummary(inputs)}
+              </span>
+            )}
+            {!isOpen && (
+              <span className="text-xs text-slate-400 mt-0.5">
+                Adjust salary, contributions, growth and prices to see how the results change.
+              </span>
+            )}
+          </div>
+          <span className="shrink-0 text-slate-400">
+            {isOpen ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+          </span>
+        </button>
+      )}
 
       {/* Expandable content */}
-      {open && (
+      {isOpen && (
         <div
           id="assumptions-panel-content"
-          className="px-6 pb-6 pt-2 border-t border-slate-100"
+          className={`px-6 pb-6 ${alwaysOpen ? 'pt-6' : 'pt-2 border-t border-slate-100'}`}
         >
           <p className="text-sm text-slate-500 mb-6">
             Adjust salary, contributions, growth and prices to see how the results change.

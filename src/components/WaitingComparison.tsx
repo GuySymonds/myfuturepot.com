@@ -38,11 +38,6 @@ export default function WaitingComparison({ inputs }: WaitingComparisonProps) {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex items-center gap-2">
-        <h2 className="text-2xl font-bold text-slate-800">Cost of waiting</h2>
-        <HelpTip text="Shows the estimated pension pot at retirement for four different starting ages, using the same assumptions. Starting earlier gives more time for the pot to grow." />
-      </div>
-
       {/* Comparison cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {results.map((result, i) => {

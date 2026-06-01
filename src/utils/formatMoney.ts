@@ -48,3 +48,22 @@ export function formatCompactQuantity(value: number): string {
   }
   return String(value);
 }
+
+/**
+ * Format a decimal item count for everyday item growth display.
+ * Small counts (< 1000): one decimal place if not a whole number, e.g. 6.4, 47
+ * Large counts (>= 1000): compact format, e.g. 1.2k, 12.5k
+ */
+export function formatItemCount(value: number): string {
+  if (value >= 1_000_000) {
+    const m = value / 1_000_000;
+    return `${parseFloat(m.toFixed(1))}m`;
+  }
+  if (value >= 1_000) {
+    const k = value / 1_000;
+    return `${parseFloat(k.toFixed(1))}k`;
+  }
+  // Round to 1 decimal place for small numbers
+  const rounded = Math.round(value * 10) / 10;
+  return rounded % 1 === 0 ? String(Math.round(rounded)) : rounded.toFixed(1);
+}
