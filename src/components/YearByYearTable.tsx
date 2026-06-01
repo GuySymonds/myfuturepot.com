@@ -34,7 +34,7 @@ export default function YearByYearTable({ yearlyResults }: YearByYearTableProps)
                 <th className="text-right px-3 py-2 font-semibold whitespace-nowrap border-b border-slate-200">Employer / mo</th>
                 <th className="text-right px-3 py-2 font-semibold whitespace-nowrap border-b border-slate-200">Tax relief / mo</th>
                 <th className="text-right px-3 py-2 font-semibold whitespace-nowrap border-b border-slate-200">Pot value</th>
-                <th className="text-right px-3 py-2 font-semibold whitespace-nowrap border-b border-slate-200">In today's money</th>
+                <th className="text-right px-3 py-2 font-semibold whitespace-nowrap border-b border-slate-200">What it could buy today</th>
               </tr>
             </thead>
             <tbody>

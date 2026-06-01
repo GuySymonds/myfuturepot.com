@@ -106,6 +106,52 @@ describe('pensionCalculator', () => {
         expect(year.employeeContributionPercent).toBeCloseTo(5, 5);
       }
     });
+
+    it('final contribution rate remains fixed when annual increase is 0', () => {
+      const result = calculatePension({
+        ...defaultInputs,
+        annualEmployeeContributionIncreasePercentPoints: 0,
+        employeeContributionPercent: 5,
+        maxEmployeeContributionPercent: 12,
+      });
+      expect(result.finalEmployeeContributionPercent).toBeCloseTo(5, 5);
+    });
+
+    it('final contribution rate increases by percentage points each year until cap', () => {
+      const result = calculatePension({
+        ...defaultInputs,
+        startAge: 18,
+        retirementAge: 30, // 12 years
+        annualEmployeeContributionIncreasePercentPoints: 1,
+        employeeContributionPercent: 5,
+        maxEmployeeContributionPercent: 20,
+      });
+      // After 11 years of increases: 5 + 1*11 = 16 (last year at age 29 uses year 11 contribution)
+      // Year 0 (age 18): 5%, Year 11 (age 29): 16%
+      expect(result.finalEmployeeContributionPercent).toBeCloseTo(16, 5);
+    });
+
+    it('final contribution rate is capped by maxEmployeeContributionPercent', () => {
+      const result = calculatePension({
+        ...defaultInputs,
+        annualEmployeeContributionIncreasePercentPoints: 2,
+        employeeContributionPercent: 5,
+        maxEmployeeContributionPercent: 8,
+      });
+      expect(result.finalEmployeeContributionPercent).toBeLessThanOrEqual(8);
+    });
+
+    it('final contribution rate displays the actual final calculated rate, not the max', () => {
+      // With 0 increase, should show starting rate, not max
+      const result = calculatePension({
+        ...defaultInputs,
+        annualEmployeeContributionIncreasePercentPoints: 0,
+        employeeContributionPercent: 5,
+        maxEmployeeContributionPercent: 12,
+      });
+      expect(result.finalEmployeeContributionPercent).toBeCloseTo(5, 5);
+      expect(result.finalEmployeeContributionPercent).not.toBeCloseTo(12, 5);
+    });
   });
 
   it('investment growth is the difference between pot and total contributions', () => {
