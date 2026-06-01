@@ -60,3 +60,70 @@ export const todayPriceExamples: TodayPriceExample[] = [
     note: 'Pub prices vary a lot by location.',
   },
 ];
+
+export type EverydayItemExample = {
+  id: string;
+  label: string;
+  emoji: string;
+  unitNameSingular: string;
+  unitNamePlural: string;
+  currentPrice: number;
+  note?: string;
+};
+
+export const everydayItemExamples: EverydayItemExample[] = [
+  {
+    id: 'bread',
+    label: 'Loaf of bread',
+    emoji: '🍞',
+    unitNameSingular: 'loaf',
+    unitNamePlural: 'loaves',
+    currentPrice: 1.45,
+    note: 'Based on an example current price. Prices vary.',
+  },
+  {
+    id: 'concert',
+    label: 'Concert ticket',
+    emoji: '🎟️',
+    unitNameSingular: 'ticket',
+    unitNamePlural: 'tickets',
+    currentPrice: 75,
+    note: 'Ticket prices vary heavily by artist and venue.',
+  },
+  {
+    id: 'phone',
+    label: 'Smartphone',
+    emoji: '📱',
+    unitNameSingular: 'phone',
+    unitNamePlural: 'phones',
+    currentPrice: 800,
+    note: 'Approximate price for a new mid-to-high range phone.',
+  },
+  {
+    id: 'driving-lesson',
+    label: 'Driving lesson',
+    emoji: '🚗',
+    unitNameSingular: 'lesson',
+    unitNamePlural: 'lessons',
+    currentPrice: 38,
+    note: 'Driving lesson prices vary by area and instructor.',
+  },
+  {
+    id: 'rent',
+    label: 'Month of rent',
+    emoji: '🏠',
+    unitNameSingular: 'month',
+    unitNamePlural: 'months',
+    currentPrice: 1200,
+    note: 'Rent varies heavily by location and property size.',
+  },
+  {
+    id: 'pint',
+    label: 'Pint in a pub',
+    emoji: '🍺',
+    unitNameSingular: 'pint',
+    unitNamePlural: 'pints',
+    currentPrice: 5.15,
+    note: 'Pub prices vary a lot by location.',
+  },
+];
